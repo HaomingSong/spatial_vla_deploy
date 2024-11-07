@@ -1,0 +1,7 @@
+rollouts
+*/__pycache__/*
+*/.pytest_cache/*
+*/.tox/*
+*/.coverage
+*/.DS_Store
+*/.mypy
