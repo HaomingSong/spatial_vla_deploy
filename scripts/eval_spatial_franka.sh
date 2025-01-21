@@ -1,0 +1,179 @@
+ckpts=(
+  # 2024-12-11_01_spatialvla_all_paligemma_3b_vis_zoe_flash_obs14_spatial_untie_gaussN8194_unicam_lr2e-5_bs32_ga1_node1_gpu4_checkpoint-20000
+  # 2024-12-11_01_spatialvla_all_paligemma_3b_vis_zoe_flash_obs14_spatial_untie_gaussN8194_unicam_lr2e-5_bs32_ga1_node1_gpu4_checkpoint-40000
+  # 2024-12-11_01_spatialvla_put_banana_into_basket_paligemma_3b_vis_zoe_flash_obs14_spatial_untie_gaussN8194_unicam_lr2e-5_bs32_ga1_node1_gpu4_checkpoint-16600
+  # 2024-12-11_01_spatialvla_put_banana_into_basket_paligemma_3b_vis_zoe_flash_obs14_spatial_untie_gaussN8194_unicam_lr2e-5_bs32_ga1_node1_gpu4_checkpoint-10000
+  # 2024-12-12_19_spatialvla_put_banana_into_basket_paligemma_3b_vis_zoe_flash_obs14_spatial_untie_gaussN8194_unicam_lr2e-5_bs32_ga1_node1_gpu4_ft_checkpoint-20000
+  #
+  # 2024-12-21_22_spatialvla_put_banana_into_basket_oxe_paligemma3b_zoe_obs14_N1026_gpu48_checkpoint_230770_stage2_lr2e-5_bs32_node1_gpu4_r32_a32_ep500_all-linear_checkpoint-60000
+  # 2024-12-21_22_spatialvla_put_lid_on_side_oxe_paligemma3b_zoe_obs14_N1026_gpu48_checkpoint_230770_stage2_lr2e-5_bs32_node1_gpu4_r0_a0_ep500_none_checkpoint-60000
+  # 2024-12-21_22_spatialvla_open_lid_oxe_paligemma3b_zoe_obs14_N1026_gpu48_checkpoint_230770_stage2_lr2e-5_bs32_node1_gpu4_r0_a0_ep500_none_checkpoint-60000
+  # 2024-12-21_22_spatialvla_put_drink_on_board_oxe_paligemma3b_zoe_obs14_N1026_gpu48_checkpoint_230770_stage2_lr2e-5_bs32_node1_gpu4_r0_a0_ep500_none_checkpoint-50000
+  # 2024-12-21_22_spatialvla_put_banana_into_basket_oxe_paligemma3b_zoe_obs14_N1026_gpu48_checkpoint_230770_stage2_lr2e-5_bs32_node1_gpu4_r0_a0_ep500_none_checkpoint-60000
+  # 2024-12-21_22_spatialvla_put_croissant_on_board_oxe_paligemma3b_zoe_obs14_N1026_gpu48_checkpoint_230770_stage2_lr2e-5_bs32_node1_gpu4_r0_a0_ep500_none_checkpoint-50000
+
+  # banana
+  # 2024-12-30_09_spatialvla_put_banana_into_basket_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep50_all-linear+emb+h_oxe_checkpoint-16600
+  # 2024-12-30_16_spatialvla_put_banana_into_basket_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep50_all-linear+emb_oxe_checkpoint-16600
+  # 2024-12-30_17_spatialvla_put_banana_into_basket_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep50_all-linear+emb+h_ban_checkpoint-16600
+  # 2024-12-30_19_spatialvla_put_banana_into_basket_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep50_all-linear+emb_ban_checkpoint-16600
+
+  # new_scene
+  # 2025-01-01_12_spatialvla_all_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-50000
+  # 2025-01-01_12_spatialvla_all_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-30000
+  # 2025-01-01_09_spatialvla_put_teacups_on_side_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-30000
+  # 2025-01-01_03_spatialvla_put_lid_on_side_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-38800
+  # 2025-01-01_03_spatialvla_open_lid_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-40000
+  # 2025-01-01_02_spatialvla_put_drink_on_board_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-26300
+  # 2025-01-01_01_spatialvla_put_croissant_on_board_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-36100
+  # 2025-01-01_01_spatialvla_put_block_into_basket_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-35500
+
+  # collected dataset sft
+  # 2024-12-31_16_spatialvla_cube_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep50_all-linear+emb_oxe_checkpoint-13750
+  # 2024-12-31_16_spatialvla_drawer_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep50_all-linear+emb_oxe_checkpoint-14950
+  # 2024-12-31_16_spatialvla_plush_toy_spatial_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep80_all-linear+emb_oxe_checkpoint-9040
+  # 2024-12-31_22_spatialvla_make_tea_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-31200
+  # 2024-12-31_22_spatialvla_plush_toy_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-25300
+  # 2024-12-31_23_spatialvla_put_banana_into_basket_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-33200
+  # 2025-01-01_01_spatialvla_put_block_into_basket_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-35500
+  # 2025-01-01_01_spatialvla_put_croissant_on_board_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-36100
+  # 2025-01-01_02_spatialvla_put_drink_on_board_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-26300
+  # 2025-01-01_03_spatialvla_open_lid_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-40000
+  # 2025-01-01_03_spatialvla_put_lid_on_side_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-38800
+  # 2025-01-01_09_spatialvla_put_teacups_on_side_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-30000
+  # 2025-01-01_12_spatialvla_all_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-30000
+  # +
+  # 2025-01-01_03_spatialvla_open_lid_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-60000
+  # 2025-01-01_09_spatialvla_put_teacups_on_side_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-50000
+  # 2025-01-01_12_spatialvla_all_oxe_kuka_fmb_paligemma_3b_obs14_N8194_lr2e-5_gpu48_checkpoint_120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep100_all-linear+emb_oxe_checkpoint-50000
+
+  # N8195 120k
+  # 2025-01-03_10_spatialvla_cube_simplerenv_zoe_N8194_uniform_gpu8_checkpoint120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep200_all-linear+emb_smp_checkpoint-55000
+  # 2025-01-03_10_spatialvla_drawer_simplerenv_zoe_N8194_uniform_gpu8_checkpoint120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep200_all-linear+emb_smp_checkpoint-59800
+  # 2025-01-03_10_spatialvla_make_tea_simplerenv_zoe_N8194_uniform_gpu8_checkpoint120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep200_all-linear+emb_smp_checkpoint-62400
+  # 2025-01-03_11_spatialvla_plush_toy_simplerenv_zoe_N8194_uniform_gpu8_checkpoint120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep200_all-linear+emb_smp_checkpoint-50600
+  # 2025-01-03_14_spatialvla_plush_toy_spatial_simplerenv_zoe_N8194_uniform_gpu8_checkpoint120000_lr5e-4_bs32_node1_gpu4_r32_a32_ep200_all-linear+emb_smp_checkpoint-22600
+
+  # 160k test
+  # 2025-01-11_19_spatialvla_cube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-160k_lr5e-4_bs32_node1_gpu8_r32_a32_ep150_all-linear+emb_oxe_checkpoint-10000 # 1, 0, 1
+  # 2025-01-11_19_spatialvla_cube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-160k_lr5e-4_bs32_node1_gpu8_r32_a32_ep150_all-linear+emb_oxe_checkpoint-20700
+  # 2025-01-11_22_spatialvla_cube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-160k_lr5e-4_bs32_node1_gpu8_r32_a32_ep150_all-linear+emb_oxe_adpt_fea_checkpoint-10000
+  # 2025-01-11_22_spatialvla_cube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-160k_lr5e-4_bs32_node1_gpu8_r32_a32_ep150_all-linear+emb_oxe_adpt_fea_checkpoint-20000
+  # 2025-01-12_01_spatialvla_cube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-160k_lr2e-5_bs32_node1_gpu8_r0_a0_ep150_none_oxe_adpt_fea_checkpoint-10000
+
+  # data filter test
+  # v1
+  # 2025-01-13_23_spatialvla_cube_v1_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-180k_lr2e-5_bs32_node1_gpu4_r0_a0_ep150_none_oxe_checkpoint-10000
+  # 2025-01-13_23_spatialvla_cube_v1_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-180k_lr5e-4_bs32_node1_gpu4_r32_a32_ep150_all-linear+emb_oxe_checkpoint-10000
+  # 2025-01-13_23_spatialvla_cube_v2_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-180k_lr2e-5_bs32_node1_gpu4_r0_a0_ep150_none_oxe_checkpoint-10000
+  #
+  # v2
+  # 2025-01-12_01_spatialvla_cube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-160k_lr2e-5_bs32_node1_gpu8_r0_a0_ep150_none_oxe_adpt_fea_checkpoint-20700
+  # 2025-01-13_23_spatialvla_cube_v1_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-180k_lr2e-5_bs32_node1_gpu4_r0_a0_ep150_none_oxe_checkpoint-36900
+  # 2025-01-13_23_spatialvla_cube_v1_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-180k_lr5e-4_bs32_node1_gpu4_r32_a32_ep150_all-linear+emb_oxe_checkpoint-20000
+  # 2025-01-14_17_spatialvla_cube_v2_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k_lr2e-5_bs32_node1_gpu4_r0_a0_ep150_none_oxe_checkpoint-20000
+  # 2025-01-14_17_spatialvla_cube_v3_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k_lr2e-5_bs32_node1_gpu4_r0_a0_ep150_none_oxe_checkpoint-20000
+
+  # 2025-01-15_09_cube_z_gripper_v1_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k_lr2e-5_bs32_node1_gpu8_r0_a0_ep150_none_oxe_checkpoint-10000
+  # 2025-01-15_09_cube_z_gripper_v2_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k_lr2e-5_bs32_node1_gpu8_r0_a0_ep150_none_oxe_checkpoint-10000
+  # 2025-01-15_09_cube_z_gripper_v3_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k_lr2e-5_bs32_node1_gpu8_r0_a0_ep150_none_oxe_checkpoint-10000
+  # 2025-01-15_09_cube_z_gripper_wo_norm_v1_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k_lr2e-5_bs32_node1_gpu8_r0_a0_ep150_none_oxe_checkpoint-10000
+  # 2025-01-15_09_cube_z_gripper_wo_norm_v2_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k_lr2e-5_bs32_node1_gpu8_r0_a0_ep150_none_oxe_checkpoint-10000
+  #
+
+  # 2025-01-15_23_ThreeCube_50_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node1_gpu8_r0_a0_ep100_none_oxe_checkpoint-2100
+  # 2025-01-15_23_ThreeCube_50_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear+emb_oxe_checkpoint-2100
+  # 2025-01-16_07_ThreeCube_100_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear+emb_oxe_checkpoint-4100
+  # 2025-01-16_08_ThreeCube_100_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node1_gpu8_r0_a0_ep100_none_oxe_checkpoint-4100
+  # 2025-01-16_11_push_tea_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node1_gpu8_r0_a0_ep100_none_oxe_checkpoint-1600
+#   2025-01-16_11_push_tea_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear+emb_oxe_checkpoint-1600
+
+  # 2025-01-16_13_ThreeCube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node1_gpu8_r0_a0_ep100_none_oxe_checkpoint-5000
+  # 2025-01-16_13_ThreeCube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node1_gpu8_r0_a0_ep100_none_oxe_checkpoint-9000
+  # 2025-01-16_13_ThreeCube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear+emb_oxe_checkpoint-5000
+  # 2025-01-16_13_ThreeCube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear+emb_oxe_checkpoint-9000 
+  # 2025-01-16_16_demo_mix0_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node4_gpu32_r0_a0_ep5_none_oxe_checkpoint-10000
+
+  # mixture sft
+  # 2025-01-17_08_spatialvla_plush_toy_spatial_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep50_none_oxe_checkpoint-2850
+  # 2025-01-17_08_ThreeCube_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep50_all-linear+emb_oxe_checkpoint-4500 # 1,1,1
+  # 2025-01-17_08_ThreeCube_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep50_none_oxe_checkpoint-4500
+  # 2025-01-17_08_spatialvla_cube_oxe_spatial_vla_paligemma2b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep50_all-linear+emb_oxe_checkpoint-6900
+  # 2025-01-17_08_spatialvla_cube_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep50_none_oxe_checkpoint-6900
+  # 2025-01-17_08_spatialvla_plush_toy_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep50_none_oxe_checkpoint-6350
+  # 2025-01-17_12_push_tea_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep50_all-linear+emb_oxe_checkpoint-800
+
+  # 1/8 cube rgb / instruction following
+  # 2025-01-18_01_spatialvla_cube_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep50_all-linear_oxe_checkpoint-6900
+  # 2025-01-18_02_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr2e-5_bs32_node1_gpu4_r0_a0_ep10_none_oxe_checkpoint-5000
+  # 2025-01-18_02_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr2e-5_bs32_node1_gpu4_r0_a0_ep10_none_oxe_checkpoint-7540
+  # 2025-01-18_02_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep25_none_oxe_checkpoint-5000
+  # 2025-01-18_02_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep25_none_oxe_checkpoint-9425
+  # 2025-01-18_02_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep25_all-linear_oxe_checkpoint-5000
+  # 2025-01-18_02_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep25_all-linear_oxe_checkpoint-9425
+  # 2025-01-18_17_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep25_all-linear_oxe_checkpoint-5400
+  # 2025-01-18_17_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep25_none_oxe_checkpoint-5400
+  # 2025-01-18_17_three_cube_red_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear_oxe_checkpoint-2800
+  # 2025-01-18_17_three_cube_blue_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear_oxe_checkpoint-2200
+  # 2025-01-18_17_three_cube_green_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear_oxe_checkpoint-2300
+  # 2025-01-18_18_ThreeCube_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep50_all-linear_oxe_checkpoint-4500
+  # 2025-01-21 🔥
+  # 2025-01-20_09_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep25_none_oxe_checkpoint-10000
+  # 2025-01-20_09_cube_rgb_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep25_none_oxe_checkpoint-15700
+  # 2025-01-20_09_three_cube_blue_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear_oxe_checkpoint-6300
+  # 2025-01-20_09_three_cube_green_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear_oxe_checkpoint-5800
+  2025-01-20_15_ThreeCube_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr5e-4_bs32_node1_gpu8_r32_a32_ep100_all-linear_oxe_checkpoint-9000
+  # 2025-01-20_09_demo_mix2_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node4_gpu32_r0_a0_ep5_none_oxe_checkpoint-30000
+
+  # 2 push tea
+  # 2025-01-18_21_push_tea_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep200_none_oxe_checkpoint-3200 # ok, forward 16cm
+  # 2025-01-18_18_push_tea_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep200_all-linear_oxe_checkpoint-3200
+  # 2025-01-18_21_push_tea_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep200_none_oxe_checkpoint-3200 # ok, forward 16cm
+  
+  # 3 plush toy
+  # 2025-01-17_08_spatialvla_plush_toy_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep50_none_oxe_checkpoint-6350
+  # 2025-01-18_18_spatialvla_plush_toy_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep50_all-linear_oxe_checkpoint-6350 # fail grasped
+  # 2025-01-18_18_spatialvla_plush_toy_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep50_none_oxe_checkpoint-6350 # ensemble action, adjust pos
+  # 2025-01-18_18_spatialvla_plush_toy_spatial_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep50_all-linear_oxe_checkpoint-2850 # fail
+  # 2025-01-18_22_spatialvla_plush_toy_spatial_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-6_bs32_node1_gpu8_r0_a0_ep100_none_oxe_checkpoint-5700
+
+  # 4 banana
+  # 2025-01-18_21_kitchen_banana_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep200_none_oxe_checkpoint-4600 # very nice banana yyds
+  # 2025-01-18_21_kitchen_banana_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep200_none_oxe_checkpoint-4600
+  # 2025-01-18_23_kitchen_banana_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep200_all-linear_oxe_checkpoint-4600
+
+  # 5 long drawer
+  # 2025-01-19_11_long_drawer_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep200_none_obs125_checkpoint-13400
+  # 2025-01-19_11_long_drawer_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr2e-5_bs32_node1_gpu8_r0_a0_ep200_none_oxe_checkpoint-13400
+  # 2025-01-19_11_long_drawer_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep200_all-linear_obs125_checkpoint-13400
+  # 2025-01-19_11_long_drawer_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep200_all-linear_oxe_checkpoint-13400
+
+  # 6 kitchen pot
+  # 2025-01-19_22_kitchen_pot_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix1_20k_lr5e-4_bs32_node1_gpu8_r32_a32_ep200_all-linear_oxe_checkpoint-8800
+
+  # 7 demo mix -> mutiple task
+  # oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k
+  # 2025-01-18_02_demo_mix1_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k-demo_mix0_20k_lr5e-6_bs32_node3_gpu24_r0_a0_ep5_none_oxe_checkpoint-20000
+  # 2025-01-21 🔥
+  # 2025-01-20_09_demo_mix2_2025-01-05_09-12-37_oxe_spatial_vla_paligemma3b_zoe_gsN8194_gpu64-204k-mix-sft7-40k_lr2e-5_bs32_node4_gpu32_r0_a0_ep5_none_oxe_checkpoint-30000
+
+  
+)
+
+for ckpt in ${ckpts[@]}; do
+  # unnorm_key=$(echo "$ckpt" | grep -oP 'spatialvla_\K[^_]+(?:_[^_]+)*(?=_oxe)')
+  # unnorm_key=$(echo "$input" | sed -n 's/.*spatialvla_\([^_]*\)_oxe.*/\1/p')
+  # unnorm_key=$(echo "$ckpt" | sed -n 's/.*spatialvla_\([^_]*_[^_]*_[^_]*\)_oxe.*/\1/p')
+  # echo $unnorm_key
+  python franka/run_franka_eval.py \
+    --model_family openvla \
+    --pretrained_checkpoint ../pretrained/$ckpt \
+    --unnorm_key ThreeCube \
+    --ensemble_actions True \
+    --action_horizon 2 \
+    --sticky_gripper_num_steps 4 \
+    --max_steps 800 
+    --center_crop True
+done
+# --pretrained_checkpoint ../ckpts/finetuning/spatial_vla/$ckpt \
+# --pretrained_checkpoint ../ckpts/2024-12-08_00_oxe_spatial_vla_kuka_fmb_paligemma_3b_vis_zoe_flash_obs14_spatial_untie_gaussN8194_unicam_lr2e-5_bs32_ga1_node6_gpu48_checkpoint-120000 \

@@ -7,9 +7,16 @@ Usage:
     # OpenVLA:
     python experiments/robot/bridge/run_bridgev2_eval.py --model_family openvla --pretrained_checkpoint openvla/openvla-7b
 """
+reset_joint_positions = [
+    0.0760389047913384,
+    -1.0362613022620384,
+    -0.054254247684777324,
+    -2.383951857286591,
+    -0.004505598470154735,
+    1.3820559157131187,
+    0.784935455988679,
+]
 
-import os
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import sys
 import time
 from dataclasses import dataclass, field
@@ -21,6 +28,8 @@ import torch
 import numpy as np
 from collections import deque
 from PIL import Image
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 import draccus
 
@@ -29,7 +38,6 @@ sys.path.append(".")
 from bridgev2_utils import (
     get_next_task_label,
     get_preprocessed_image,
-    get_widowx_env,
     refresh_obs,
     save_rollout_data,
     save_rollout_video,
@@ -39,6 +47,26 @@ from bridgev2_utils import (
     get_image_resize_size,
 )
 
+import cv2
+from tensorflow.python.framework.ops import re
+import torch
+import os.path as osp
+from deoxys import config_root
+from deoxys.franka_interface import FrankaInterface
+from deoxys.utils import YamlConfig
+from deoxys.experimental.motion_utils import reset_joints_to
+import deoxys.utils.transform_utils as dft
+from realsense_camera import MultiCamera
+from PIL import Image
+from pathlib import Path
+import imageio
+
+import json
+import time
+
+ego_camera = "213522070137"
+third_camera = "243222074139"
+# third_camera = "134322071435" # eye-to-hand-2
 
 @dataclass
 class GenerateConfig:
@@ -48,7 +76,7 @@ class GenerateConfig:
     # Model-specific parameters
     #################################################################################################################
     model_family: str = "openvla"                               # Model family
-    pretrained_checkpoint: Union[str, Path] = ""                # Pretrained checkpoint path
+    pretrained_checkpoint: Path = ""                # Pretrained checkpoint path
     load_in_8bit: bool = False                                  # (For OpenVLA only) Load with 8-bit quantization
     load_in_4bit: bool = False                                  # (For OpenVLA only) Load with 4-bit quantization
 
@@ -80,11 +108,29 @@ class GenerateConfig:
     # Utils
     #################################################################################################################
     save_data: bool = False                                     # Whether to save rollout data (images, actions, etc.)
-    ensemble_actions: bool = True                              # Whether to ensemble
-    action_horizon: int = 25                                    # Number of actions
+    unnorm_key: str = "banana"
+    prompt_path: str = "/new_home/haoming/projs/vla_deploy/spatial_vla/franka/prompt.json"
+    
+    ensemble_actions: bool = False
+    action_horizon: int = 4                                    # Number of actions
+    sticky_gripper_num_steps: int =1
 
     # fmt: on
 
+def convert_gripper_action(action):
+    action[-1] = 1 - action[-1]
+    if action[-1] < 0.5:
+        action[-1] = -1
+
+    return action
+
+def get_robot_interface():
+
+    robot_interface = FrankaInterface(osp.join(config_root, "charmander.yml"))
+    controller_cfg = YamlConfig(osp.join(config_root, "osc-pose-controller.yml")).as_easydict()
+    controller_type = "OSC_POSE"
+
+    return robot_interface, controller_cfg, controller_type
 
 def prepare_vla(cfg):
     model = (
@@ -167,64 +213,59 @@ def get_obs_recoder(processor):
 @draccus.wrap()
 def eval_model_in_bridge_env(cfg: GenerateConfig) -> None:
     assert cfg.pretrained_checkpoint is not None, "cfg.pretrained_checkpoint must not be None!"
-    assert not cfg.center_crop, "`center_crop` should be disabled for Bridge evaluations!"
-
-    # [OpenVLA] Set action un-normalization key
-    cfg.unnorm_key = "bridge_orig/1.0.0"
+    # assert not cfg.center_crop, "`center_crop` should be disabled for Bridge evaluations!"
 
     model, processor, action_ensembler, obs_recoder = prepare_vla(cfg)
 
     # Initialize the WidowX environment
-    env = get_widowx_env(cfg, model)
+    multi_camera = MultiCamera()
+    robot_interface, controller_cfg, controller_type = get_robot_interface()
 
-    # Get expected image dimensions
-    resize_size = get_image_resize_size(cfg)
+    with open(cfg.prompt_path, "r") as f:
+        prompt = json.load(f)
+    task_label = prompt[cfg.unnorm_key]
 
     # Start evaluation
-    task_label = ""
     episode_idx = 0
     while episode_idx < cfg.max_episodes:
-        # Get task description from user
-        task_label = get_next_task_label(task_label)
-
-        # Reset environment
-        obs, _ = env.reset()
+        reset_joints_to(robot_interface, reset_joint_positions)
 
         # Setup
         t = 0
-        step_duration = 1.0 / cfg.control_frequency
         replay_images = []
         if cfg.save_data:
             rollout_images = []
             rollout_states = []
             rollout_actions = []
-
         # Start episode
         input(f"Press Enter to start episode {episode_idx+1}...")
         print("Starting episode... Press Ctrl-C to terminate episode early!")
         last_tstamp = time.time()
+        
+        openloop_traj_step = cfg.action_horizon - 1
+        is_gripper_closed = False
+        num_consecutive_gripper_change_actions = 0
+        
         while t < cfg.max_steps:
             try:
-                curr_tstamp = time.time()
-                if curr_tstamp > last_tstamp + step_duration:
-                    print(f"t: {t}")
-                    print(f"Previous step elapsed time (sec): {curr_tstamp - last_tstamp:.2f}")
-                    last_tstamp = time.time()
+                # Refresh the camera image and proprioceptive state
+                obs = {}
+                images = multi_camera.get_frame()
+                frame, depth = images[third_camera]
+                import copy
+                obs["full_image"] = copy.deepcopy(frame)
+                replay_images.append(obs["full_image"])
 
-                    # Refresh the camera image and proprioceptive state
-                    obs = refresh_obs(obs, env)
+                # Get preprocessed image
+                obs["full_image"] = get_preprocessed_image(obs, (224, 224))
 
-                    # Save full (not preprocessed) image for replay video
-                    replay_images.append(obs["full_image"])
+                # import cv2
+                # cv2.imshow("preprocessed_image", obs["full_image"])
+                # cv2.waitKey(1)
 
-                    # Get preprocessed image
-                    obs["full_image"] = get_preprocessed_image(obs, resize_size)
-                    # import cv2
-                    # cv2.imshow("preprocessed_image", obs["full_image"])
-                    # cv2.waitKey(1)
-
-                    # Query model to get action
-                    t1 = time.time()
+                # Query model to get action
+                t1 = time.time()
+                if cfg.ensemble_actions:
                     action = get_action(
                         cfg,
                         model,
@@ -234,26 +275,61 @@ def eval_model_in_bridge_env(cfg: GenerateConfig) -> None:
                         action_ensembler=action_ensembler,
                         obs_recoder=obs_recoder,
                     )
-                    t2 = time.time()
-                    print(f"Model inference time: {t2 - t1:.2f}s")
+                else:
+                    if openloop_traj_step != cfg.action_horizon - 1:
+                        openloop_traj_step += 1
+                        time.sleep(0.08)
+                    else:
+                        traj_action = get_action(
+                            cfg,
+                            model,
+                            obs,
+                            task_label,
+                            processor=processor,
+                            action_ensembler=action_ensembler,
+                            obs_recoder=obs_recoder,
+                        )
+                        openloop_traj_step = 0
 
-                    # [If saving rollout data] Save preprocessed image, robot state, and action
-                    if cfg.save_data:
-                        rollout_images.append(obs["full_image"])
-                        rollout_states.append(obs["proprio"])
-                        rollout_actions.append(action)
+                        action = traj_action[openloop_traj_step]
+                t2 = time.time()
+                print(f"Model inference time: {t2 - t1:.2f}s")
+                # __import__('ipdb').set_trace()
+                # action[0] = 0.8
 
-                    # Execute action
-                    print("action:", action)
-                    obs, _, _, _, _ = env.step(action)
-                    t += 1
+                # [If saving rollout data] Save preprocessed image, robot state, and action
+                if cfg.save_data:
+                    rollout_images.append(obs["full_image"])
+                    rollout_states.append(obs["proprio"])
+                    rollout_actions.append(action)
+                
+                # sticky gripper
+                if (action[-1] < 0.5) != is_gripper_closed:
+                    num_consecutive_gripper_change_actions += 1
+                else:
+                    num_consecutive_gripper_change_actions = 0
+# 
+                if num_consecutive_gripper_change_actions >= cfg.sticky_gripper_num_steps:
+                    is_gripper_closed = not is_gripper_closed
+                    num_consecutive_gripper_change_actions = 0
+                action[-1] = 0.0 if is_gripper_closed else 1.0
+
+                # Execute action
+                rotation_matrix = dft.euler2mat(action[3:6])
+                quat = dft.mat2quat(rotation_matrix)
+                axis_angle = dft.quat2axisangle(quat)
+                action[3:6] = axis_angle
+                action = convert_gripper_action(action)
+                print("action:", action)
+                robot_interface.control(controller_type=controller_type, action=action, controller_cfg=controller_cfg)
+                t += 1
 
             except KeyboardInterrupt as e:
                 print("\nCaught KeyboardInterrupt: Terminating episode early.")
                 break
 
         # Save a replay video of the episode
-        save_rollout_video(replay_images, task_label, episode_idx)
+        save_rollout_video(cfg, replay_images, cfg.unnorm_key, episode_idx)
 
         # [If saving rollout data] Save rollout data
         if cfg.save_data:

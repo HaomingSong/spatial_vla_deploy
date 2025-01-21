@@ -5,3 +5,4 @@ rollouts
 */.coverage
 */.DS_Store
 */.mypy
+*.png

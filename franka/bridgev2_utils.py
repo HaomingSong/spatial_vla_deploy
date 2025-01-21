@@ -11,6 +11,7 @@ from widowx_envs.widowx_env_service import WidowXClient, WidowXConfigs
 from PIL import Image
 from typing import List
 import cv2
+import json
 
 sys.path.append(".")
 from experiments.robot.bridge.widowx_env import WidowXGym
@@ -70,18 +71,16 @@ def get_next_task_label(task_label):
     return task_label
 
 
-def save_rollout_video(rollout_images, task_name, idx):
+def save_rollout_video(cfg, rollout_images, task_name, idx):
     """Saves an MP4 replay of an episode."""
     os.makedirs("./rollouts", exist_ok=True)
-    save_folder= f"./rollouts/{task_name.replace(' ', '_')}"
+    save_folder= f"./rollouts/{task_name.replace(' ', '_')}/{cfg.pretrained_checkpoint.name}"
     if not os.path.exists(save_folder):
         os.makedirs(save_folder)
     mp4_path = f"{save_folder}/{DATE_TIME}-{idx+1}.mp4"
     video_writer = imageio.get_writer(mp4_path, fps=5)
     for img in rollout_images:
-        img = tf.image.flip_left_right(img)
-        img = tf.image.flip_up_down(img)
-        img = img.numpy()
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         video_writer.append_data(img)
     video_writer.close()
     print(f"Saved rollout MP4 at path {mp4_path}")
@@ -123,8 +122,6 @@ def resize_image(img, resize_size):
     # img = tf.io.decode_image(img, expand_animations=False, dtype=tf.uint8)  # Immediately decode back
     img = tf.image.resize(img, resize_size, method="lanczos3", antialias=True)
     img = tf.cast(tf.clip_by_value(tf.round(img), 0, 255), tf.uint8)
-    img = tf.image.flip_left_right(img)
-    img = tf.image.flip_up_down(img)
     img = img.numpy()
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return img
@@ -151,6 +148,9 @@ def refresh_obs(obs, env):
 def get_action(cfg, model, obs, task_label, processor=None, action_ensembler=None, obs_recoder=None):
     """Queries the model to get an action."""
     if cfg.model_family == "openvla":
+        # with open(cfg.prompt_path, "r") as f:
+        #     prompt = json.load(f)
+        # task_label = prompt[cfg.unnorm_key]
         action = get_vla_action(
             cfg,
             model,
@@ -162,6 +162,7 @@ def get_action(cfg, model, obs, task_label, processor=None, action_ensembler=Non
             action_ensembler=action_ensembler,
             obs_recoder=obs_recoder,
         )
+        # assert action.shape == (ACTION_DIM,)
     else:
         raise ValueError("Unexpected `model_family` found in config.")
     return action
@@ -222,13 +223,17 @@ def get_vla_action(
     prompt = task_label.lower()
 
     # predict action (7-dof; un-normalize for bridgev2)
-    inputs = processor(images=images, text=prompt, unnorm_key=unnorm_key, return_tensors="pt", do_normalize=False)
+    # t1 = time.time()
+    # __import__('ipdb').set_trace()
+    inputs = processor(images=images, text=prompt, unnorm_key=f"{unnorm_key}/0.1.1", return_tensors="pt", do_normalize=False)
+    # t2 = time.time()
+    # print("preprocess_time: ", t2 - t1)
     with torch.no_grad():
         if hasattr(processor, "action_tokenizer"):
             generation_outputs = vla.predict_action(inputs)
             raw_actions = processor.decode_actions(
                 generation_outputs=generation_outputs,
-                unnorm_key=unnorm_key,
+                unnorm_key=f"{unnorm_key}/0.1.0",
             )["actions"]
         else:
             # __import__('ipdb').set_trace()
@@ -239,6 +244,7 @@ def get_vla_action(
             raw_actions = action_ensembler.ensemble_action(raw_actions)
             # raw_actions = raw_actions[None]
 
+    # print("***inter_time: ", time.time() - t2)
     return raw_actions
 
 

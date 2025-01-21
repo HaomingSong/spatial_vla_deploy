@@ -1,0 +1,20 @@
+put the carrot in the plate
+put corn on the object with corresponding color
+put corn in the yellow plate
+put the eggplant in the basket
+put the carrot in the basket
+move to the top of the carrot, grasp the carrot, keep the carrot in the grasp, move to the top of the plate, release the carrot on the plate
+put corn in bowl sink
+put the corn in the bowl
+take corn out of bowl sink
+put cup on plate
+put silver pot on the pink cloth
+put the right most cup in the yellow plate
+put purple cup on the white plate
+lift the red chili pepper
+put green cup on the pink cloth
+move the blue brush from behind the bowl to the side of it
+place the green bell pepper to the right of the orange cloth
+place the carrot to the left of the green bell pepper 
+close the microwave 
+

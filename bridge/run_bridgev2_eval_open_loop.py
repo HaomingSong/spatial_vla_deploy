@@ -76,11 +76,11 @@ class GenerateConfig:
     max_steps: int = 200                                         # Max number of timesteps per episode
     control_frequency: float = 5                                # WidowX control frequency
 
-    #################################################################################################################
+    ##################################Image###############################################################################
     # Utils
     #################################################################################################################
     save_data: bool = False                                     # Whether to save rollout data (images, actions, etc.)
-    ensemble_actions: bool = True                              # Whether to ensemble
+    ensemble_actions: bool = False                              # Whether to ensemble
     action_horizon: int = 25                                    # Number of actions
 
     # fmt: on
@@ -203,6 +203,8 @@ def eval_model_in_bridge_env(cfg: GenerateConfig) -> None:
         input(f"Press Enter to start episode {episode_idx+1}...")
         print("Starting episode... Press Ctrl-C to terminate episode early!")
         last_tstamp = time.time()
+        openloop_traj_step = cfg.action_horizon - 1
+
         while t < cfg.max_steps:
             try:
                 curr_tstamp = time.time()
@@ -225,15 +227,34 @@ def eval_model_in_bridge_env(cfg: GenerateConfig) -> None:
 
                     # Query model to get action
                     t1 = time.time()
-                    action = get_action(
-                        cfg,
-                        model,
-                        obs,
-                        task_label,
-                        processor=processor,
-                        action_ensembler=action_ensembler,
-                        obs_recoder=obs_recoder,
-                    )
+                    if cfg.ensemble_actions:
+                        action = get_action(
+                            cfg,
+                            model,
+                            obs,
+                            task_label,
+                            processor=processor,
+                            action_ensembler=action_ensembler,
+                            obs_recoder=obs_recoder,
+                        )
+                    else:
+                        if openloop_traj_step != cfg.action_horizon - 1:
+                            openloop_traj_step += 1
+                        else:
+                            traj_action = get_action(
+                                cfg,
+                                model,
+                                obs,
+                                task_label,
+                                processor=processor,
+                                action_ensembler=action_ensembler,
+                                obs_recoder=obs_recoder,
+                            )
+                            openloop_traj_step = 0
+
+                        action = traj_action[openloop_traj_step]
+
+
                     t2 = time.time()
                     print(f"Model inference time: {t2 - t1:.2f}s")
 
@@ -248,8 +269,11 @@ def eval_model_in_bridge_env(cfg: GenerateConfig) -> None:
                     obs, _, _, _, _ = env.step(action)
                     t += 1
 
-            except KeyboardInterrupt as e:
-                print("\nCaught KeyboardInterrupt: Terminating episode early.")
+            except (KeyboardInterrupt, Exception) as e:
+                if isinstance(e, KeyboardInterrupt):
+                    print("\nCaught KeyboardInterrupt: Terminating episode early.")
+                else:
+                    print(f"\nCaught exception: {e}")
                 break
 
         # Save a replay video of the episode
